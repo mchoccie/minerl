@@ -261,12 +261,13 @@ class EnvSpec(abc.ABC):
             # TODO: Pull this out into a method.
             var_dict = {}
             for attr_name in dir(self):
+                print(attr_name)
                 if 'to_xml' not in attr_name:
                     var_dict[attr_name] = getattr(self, attr_name)
 
             env = jinja2.Environment(undefined=jinja2.StrictUndefined)
             template = env.from_string(fh.read())
-            xml = template.render(var_dict)
+        xml = template.render(var_dict)
 
         # Now do one more pretty printing
 
@@ -289,6 +290,9 @@ class EnvSpec(abc.ABC):
         Returns:
             str: The XML
         """
+        for handler in handlers:
+            print(handler)
+            print(handler.xml())
         handler_xml_strs = [handler.xml() for handler in handlers]
 
         if not handler_xml_strs:
